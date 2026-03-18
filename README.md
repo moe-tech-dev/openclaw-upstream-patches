@@ -1,5 +1,8 @@
 # OpenClaw Upstream Patches
 
+![Repo Type](https://img.shields.io/badge/repo-public%20upstream-238636)
+![Patch Class](https://img.shields.io/badge/patches-sanitized%20source%20fixes-8250df)
+
 Sanitized OpenClaw bugfix artifacts that are safe to share publicly.
 
 ## Included
@@ -24,3 +27,9 @@ Sanitized OpenClaw bugfix artifacts that are safe to share publicly.
 
 - The explicit outbound target patch is source-level and suitable for upstream review.
 - The listener/runtime mismatch document is currently an issue note and semantic fix description, not a source patch.
+
+## Tag Scheme
+
+- Format: `upstream-patches-YYYYMMDDTHHMMSS+TZ`
+- First tag: `upstream-patches-20260316T175309+0100`
+- Meaning: one sanitized export set intended for sharing, review, or upstream submission
