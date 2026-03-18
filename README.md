@@ -28,6 +28,10 @@ Sanitized OpenClaw bugfix artifacts that are safe to share publicly.
 - The explicit outbound target patch is source-level and suitable for upstream review.
 - The listener/runtime mismatch document is currently an issue note and semantic fix description, not a source patch.
 
+## Changelog
+
+- `CHANGELOG.md`
+
 ## Tag Scheme
 
 - Format: `upstream-patches-YYYYMMDDTHHMMSS+TZ`
