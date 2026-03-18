@@ -1,0 +1,48 @@
+From 59720d94d65195d732d6db63ed9990e86d178125 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 15 Mar 2026 22:26:57 +0100
+Subject: [PATCH] whatsapp: allow explicit outbound targets outside allowFrom
+
+---
+ src/whatsapp/resolve-outbound-target.test.ts | 8 ++++++++
+ src/whatsapp/resolve-outbound-target.ts      | 5 ++---
+ 2 files changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/src/whatsapp/resolve-outbound-target.test.ts b/src/whatsapp/resolve-outbound-target.test.ts
+index 5c44950..8b5508b 100644
+--- a/src/whatsapp/resolve-outbound-target.test.ts
++++ b/src/whatsapp/resolve-outbound-target.test.ts
+@@ -179,6 +179,14 @@ describe("resolveWhatsAppOutboundTarget", () => {
+   });
+ 
+   describe("explicit/custom modes", () => {
++    it("allows explicit targets even when not present in allowList", () => {
++      vi.mocked(normalize.normalizeWhatsAppTarget)
++        .mockReturnValueOnce(SECONDARY_TARGET)
++        .mockReturnValueOnce(PRIMARY_TARGET);
++      vi.mocked(normalize.isWhatsAppGroupJid).mockReturnValueOnce(false);
++      expectAllowedForTarget({ allowFrom: [SECONDARY_TARGET], mode: "explicit" });
++    });
++
+     it("allows message in null mode when allowList is not set", () => {
+       mockNormalizedDirectMessage(PRIMARY_TARGET);
+       expectAllowedForTarget({ allowFrom: undefined, mode: null });
+diff --git a/src/whatsapp/resolve-outbound-target.ts b/src/whatsapp/resolve-outbound-target.ts
+index 7ad7af1..3847f95 100644
+--- a/src/whatsapp/resolve-outbound-target.ts
++++ b/src/whatsapp/resolve-outbound-target.ts
+@@ -31,9 +31,8 @@ export function resolveWhatsAppOutboundTarget(params: {
+     if (isWhatsAppGroupJid(normalizedTo)) {
+       return { ok: true, to: normalizedTo };
+     }
+-    // Enforce allowFrom for all direct-message send modes (including explicit).
+-    // Group destinations are handled by group policy and are allowed above.
+-    if (hasWildcard || allowList.length === 0) {
++    // Explicit outbound targets are user-chosen destinations, not allowlist-derived routing.
++    if (params.mode === "explicit" || hasWildcard || allowList.length === 0) {
+       return { ok: true, to: normalizedTo };
+     }
+     if (allowList.includes(normalizedTo)) {
+-- 
+2.43.0
+
