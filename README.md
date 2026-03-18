@@ -32,6 +32,10 @@ Sanitized OpenClaw bugfix artifacts that are safe to share publicly.
 
 - `CHANGELOG.md`
 
+## Templates
+
+- `templates/`
+
 ## Tag Scheme
 
 - Format: `upstream-patches-YYYYMMDDTHHMMSS+TZ`
